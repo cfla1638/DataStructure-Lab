@@ -141,7 +141,7 @@ void BFS(const Tree T)
 
 int main(void)
 {
-    Tree T = NULL;
+    Tree T = nullptr;
     cout << "Please input the inorder traversal sequence:" << endl;
     CreateTree(T);
     cout << "Preorder traverse" << endl;
