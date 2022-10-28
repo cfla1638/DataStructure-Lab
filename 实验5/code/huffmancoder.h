@@ -38,11 +38,10 @@ namespace huffmancoder {
         HuffmanCoder(const HuffmanCoder &);     // 拷贝构造函数
         ~HuffmanCoder();
 
+        void displayEncodingMap() const;
         void encode(std::istream &, std::ostream &);
         void decode(std::istream &, std::ostream &);
     private:
-        void constructEncodingMap(int root);    // 递归遍历，构造编码映射
-
         int root = -1;
         TreeNode * base;
         std::map<char, std::string> encodingMap;
