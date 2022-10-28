@@ -1,4 +1,5 @@
 #include "huffmancoder.h"
+#include <iostream>
 #include <algorithm>
 #include <queue>
 
@@ -79,12 +80,6 @@ namespace huffmancoder {
             std::reverse(code.begin(), code.end());
             encodingMap.insert(std::pair<char, std::string>(base[i].ch, code));
         }
-
-        /* debug
-        for (int i = 0; i <nodeCnt; i++) {
-            std::cout << base[i].ch << " " << base[i].weight << " "
-            << base[i].left << " " <<base[i].right << " " << base[i].parent << '\n';
-        }*/
     }
 
     HuffmanCoder::~HuffmanCoder()
@@ -114,7 +109,17 @@ namespace huffmancoder {
         }
     }
 
-    void HuffmanCoder::decode(std::istream &, std::ostream &)
+    void HuffmanCoder::decode(std::istream &in, std::ostream &out)
+    {
+        
+    }
+
+    obinstream::obinstream(std::string filename)
+    {
+        out.open(filename, std::ios::out | std::ios::binary);
+    }
+
+    obinstream & obinstream::operator<<(std::string str)
     {
         
     }
