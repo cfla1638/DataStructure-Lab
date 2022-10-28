@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "huffmancoder.h"
 using namespace std;
 using huffmancoder::HuffmanTree;
@@ -8,9 +9,14 @@ using huffmancoder::HuffmanCoder;
 
 int main(void)
 {
-    HuffmanTree hft(cin);
-    hft.display();
+    ifstream in("content.txt", ios::in | ios::binary);
+
+    HuffmanTree hft(in);
     HuffmanCoder coder(hft);
     coder.displayEncodingMap();
+    in.clear();
+    in.seekg(0, ios::beg);
+    
+    coder.encode(in, std::cout);
     return 0;
 }

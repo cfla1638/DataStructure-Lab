@@ -1,4 +1,5 @@
 #include "huffmancoder.h"
+#include <algorithm>
 #include <queue>
 
 namespace huffmancoder {
@@ -69,13 +70,13 @@ namespace huffmancoder {
             int cur = i, par = base[cur].parent;
             while (par != -1) {
                 if (base[par].left == cur)
-                    code += '1';
-                else
                     code += '0';
+                else
+                    code += '1';
                 cur = par;
                 par = base[par].parent;
             }
-            code.reserve();
+            std::reverse(code.begin(), code.end());
             encodingMap.insert(std::pair<char, std::string>(base[i].ch, code));
         }
 
@@ -96,5 +97,25 @@ namespace huffmancoder {
         std::cout << "Map size :" << encodingMap.size() << '\n';
         for (auto i : encodingMap)
             std::cout << i.first << " " << i.second << std::endl;
+    }
+
+    void HuffmanCoder::encode(std::istream &in, std::ostream &out)
+    {
+        char buf[BufSize];
+
+        while (true) {
+            if (in)
+                in.read(buf, BufSize);
+            else
+                break;
+            int size = in.gcount();
+            for (int i = 0; i < size; i++)
+                out << encodingMap[buf[i]];     // TODO : ´¦ÀíÒì³£
+        }
+    }
+
+    void HuffmanCoder::decode(std::istream &, std::ostream &)
+    {
+        
     }
 }

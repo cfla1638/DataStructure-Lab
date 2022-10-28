@@ -42,6 +42,8 @@ namespace huffmancoder {
         void encode(std::istream &, std::ostream &);
         void decode(std::istream &, std::ostream &);
     private:
+        static const int BufSize = 1024;
+
         int root = -1;
         TreeNode * base;
         std::map<char, std::string> encodingMap;
