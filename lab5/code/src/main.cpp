@@ -14,10 +14,10 @@ using huffmancoder::HuffmanCoder;
 
 int main(void)
 {
-    ifstream in("../src/huffmancoder.cpp", ios::in | ios::binary);
-    ofstream out("../_io/decode_output.txt", ios::out | ios::binary);
-    ibinstream binin("../_io/output.txt");
-    // obinstream binout("../_io/output.txt");
+    ifstream in("../src/main.cpp", ios::in | ios::binary);
+    // ofstream out("../_io/decode_output.txt", ios::out | ios::binary);
+    // ibinstream binin("../_io/output.txt");
+    obinstream binout("../_io/output.txt");
 
     HuffmanTree hft(in);
     HuffmanCoder coder(hft);
@@ -25,9 +25,9 @@ int main(void)
     in.clear();
     in.seekg(0, ios::beg);
     
-    // coder.encode(in, binout);
-    coder.decode(binin, out);
-    // binout.close();
+    coder.encode(in, binout);
+    // coder.decode(binin, out);
+    binout.close();
 
     return 0;
 }
