@@ -113,14 +113,4 @@ namespace huffmancoder {
     {
         
     }
-
-    obinstream::obinstream(std::string filename)
-    {
-        out.open(filename, std::ios::out | std::ios::binary);
-    }
-
-    obinstream & obinstream::operator<<(std::string str)
-    {
-        
-    }
 }
