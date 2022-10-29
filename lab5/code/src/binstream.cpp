@@ -63,4 +63,40 @@ namespace binstream {
         out << offset;  // 存储字节偏移
         out.close();
     }
+
+    ibinstream::ibinstream(std::string filename)
+    {
+        in.open(filename, std::ios::in | std::ios::binary);
+        if (in) {
+            char ch;
+            in >> offset;
+        }
+        else
+            std::cout << "failed to open file\n";
+    }
+
+    bool ibinstream::get(bool &bit)
+    {
+        // 如果缓冲区内没有数据，填满缓冲区
+        if ((cursor >= end) && good) {
+            char ch;
+
+            cursor = 0;
+            end = 0;
+            while (in.get(ch)) {
+                for (int i = 0; i < 8; i++)
+                    buf[end++] = (ch & mask[i]);
+                if (end >= BufSize)
+                    break;
+            }
+            if (end < BufSize) {
+                end -= (8 - offset);
+                good = false;
+            }
+        }
+        else if ((cursor >= end) && !good)
+            return false;
+        bit = buf[cursor++];
+        return true;
+    }
 }

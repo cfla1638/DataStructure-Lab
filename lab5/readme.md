@@ -81,6 +81,22 @@ c++ IO的最小单位是字节，从系统调用read，就可以看出，只能�
 
 需要33位存储
 
+
+
+## 编译
+
+`MinGW` 
+
+~~~shell
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" ..
+cmake ..
+make
+~~~
+
+
+
 ## 参考链接
 
 [如何改变ofstream内部的缓冲区大小？-CSDN社区](https://bbs.csdn.net/topics/260005411) 

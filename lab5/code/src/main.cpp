@@ -4,6 +4,7 @@
 #include "binstream.h"
 using namespace std;
 using binstream::obinstream;
+using binstream::ibinstream;
 using huffmancoder::HuffmanTree;
 using huffmancoder::HuffmanCoder;
 
@@ -13,16 +14,20 @@ using huffmancoder::HuffmanCoder;
 
 int main(void)
 {
-    ifstream in("content.txt", ios::in | ios::binary);
-    // obinstream out("output.txt");
+    ifstream in("../src/huffmancoder.cpp", ios::in | ios::binary);
+    ofstream out("../_io/decode_output.txt", ios::out | ios::binary);
+    ibinstream binin("../_io/output.txt");
+    // obinstream binout("../_io/output.txt");
 
-    HuffmanTree hft({'a', 'b', 'c', 'd', 'e'},{5, 4, 3, 2, 1});
+    HuffmanTree hft(in);
     HuffmanCoder coder(hft);
     coder.displayEncodingMap();
     in.clear();
     in.seekg(0, ios::beg);
     
-    coder.decode(in, cout);
-    // out.close();
+    // coder.encode(in, binout);
+    coder.decode(binin, out);
+    // binout.close();
+
     return 0;
 }

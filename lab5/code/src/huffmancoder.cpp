@@ -142,4 +142,20 @@ namespace huffmancoder {
             }
         }
     }
+
+    void HuffmanCoder::decode(ibinstream &in, std::ostream &out)
+    {
+        bool ch;
+        int cur = root;
+        while (in.get(ch)) {
+            if (!ch)
+                cur = base[cur].left;
+            else
+                cur = base[cur].right;
+            if (base[cur].left == -1 && base[cur].right == -1) {
+                out << base[cur].ch;
+                cur = root;
+            }
+        }
+    }
 }
