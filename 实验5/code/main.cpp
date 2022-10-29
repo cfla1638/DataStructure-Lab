@@ -14,20 +14,15 @@ using huffmancoder::HuffmanCoder;
 int main(void)
 {
     ifstream in("content.txt", ios::in | ios::binary);
-    obinstream out("output.txt");
+    // obinstream out("output.txt");
 
-    HuffmanTree hft(in);
+    HuffmanTree hft({'a', 'b', 'c', 'd', 'e'},{5, 4, 3, 2, 1});
     HuffmanCoder coder(hft);
     coder.displayEncodingMap();
     in.clear();
     in.seekg(0, ios::beg);
     
-    coder.encode(in, out);
-    out.close();
-
-    /*
-    obinstream s("content.txt");
-    s << "10001100";
-    cout << s.tochar(0) << endl;*/
+    coder.decode(in, cout);
+    // out.close();
     return 0;
 }

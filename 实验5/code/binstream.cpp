@@ -16,6 +16,7 @@ namespace binstream {
     obinstream::obinstream(std::string filename)
     {
         out.open(filename, std::ios::out | std::ios::binary);
+        out << (char)0;     // 一字节占位
     }
 
     obinstream & obinstream::operator<<(std::string str)
@@ -43,7 +44,7 @@ namespace binstream {
 
         // std::cout << cursor;
 
-        for (i = 0; i < nbyte; i += 8)
+        for (i = 0; i < nbyte * 8; i += 8)
             out << tochar(i);
             // std::cout << (int)tochar(i) << ' ';
 

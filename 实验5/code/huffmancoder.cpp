@@ -17,7 +17,7 @@ namespace huffmancoder {
     HuffmanTree::HuffmanTree(std::istream & in)
     {
         char ch;
-        while (in >> ch) {
+        while (in.get(ch)) {
             if (base.count(ch) == 0)
                 base.insert(std::pair<char, int>(ch, 1));
             else
@@ -129,6 +129,17 @@ namespace huffmancoder {
 
     void HuffmanCoder::decode(std::istream &in, std::ostream &out)
     {
-        
+        char ch;
+        int cur = root;
+        while (in >> ch) {
+            if (ch == '0')
+                cur = base[cur].left;
+            else
+                cur = base[cur].right;
+            if (base[cur].left == -1 && base[cur].right == -1) {
+                out << base[cur].ch;
+                cur = root;
+            }
+        }
     }
 }

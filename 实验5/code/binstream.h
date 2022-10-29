@@ -26,6 +26,14 @@ namespace binstream {
         std::bitset<BufSize> buf;     // »º³åÇø
         std::ofstream out;
     };
+
+    class ibinstream
+    {
+    public:
+        ibinstream(std::string);
+    private:
+        
+    };
 }
 
 #endif
