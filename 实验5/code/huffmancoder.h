@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "binstream.h"
+using binstream::obinstream;
 
 class TreeNode
 {
@@ -41,6 +43,7 @@ namespace huffmancoder {
         void displayEncodingMap() const;
         void encode(std::istream &, std::ostream &);
         void decode(std::istream &, std::ostream &);
+        void encode(std::istream &, obinstream &);
     private:
         static const int BufSize = 1024;
 

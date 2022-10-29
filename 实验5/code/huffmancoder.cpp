@@ -2,6 +2,9 @@
 #include <iostream>
 #include <algorithm>
 #include <queue>
+#include "binstream.h"
+
+using binstream::obinstream;
 
 namespace huffmancoder {
     HuffmanTree::HuffmanTree(std::vector<char> cvec, std::vector<int> ivec)
@@ -95,6 +98,21 @@ namespace huffmancoder {
     }
 
     void HuffmanCoder::encode(std::istream &in, std::ostream &out)
+    {
+        char buf[BufSize];
+
+        while (true) {
+            if (in)
+                in.read(buf, BufSize);
+            else
+                break;
+            int size = in.gcount();
+            for (int i = 0; i < size; i++)
+                out << encodingMap[buf[i]];     // TODO : ´¦ÀíÒì³£
+        }
+    }
+
+    void HuffmanCoder::encode(std::istream &in, obinstream & out)
     {
         char buf[BufSize];
 
