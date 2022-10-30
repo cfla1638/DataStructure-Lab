@@ -32,6 +32,40 @@ namespace huffmancoder {
             std::cout << i.first << " " << i.second << std::endl;
     }
 
+    void HuffmanTree::save(std::string filename)
+    {
+        std::ofstream out(filename, std::ios::out | std::ios::binary);
+        
+        if (!out) {
+            std::cerr << "HuffmanTree::save: failed to open file" << std::endl;
+            return ;
+        }
+
+        for (auto i : base)
+            out << i.first << ' ' << i.second << '\n';
+        out.close();
+    }
+
+    // 应设置返回值状态
+    void HuffmanTree::load(std::string filename)
+    {
+        std::ifstream in(filename, std::ios::in | std::ios::binary);
+
+        if (!in) {
+            std::cerr << "HuffmanTree::load: failed to open file" << std::endl;
+            return;
+        }
+
+        base.clear();
+        char ch, t; int w;
+        while (in) {
+            in.get(ch);in.get(t);
+            in >> w;
+            in.get(t);
+            base.insert(std::pair<char, int>(ch, w));
+        }
+    }
+
     HuffmanCoder::HuffmanCoder(const HuffmanTree &data)
     {
         int leafCnt = data.base.size();

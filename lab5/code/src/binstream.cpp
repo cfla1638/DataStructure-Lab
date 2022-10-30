@@ -72,7 +72,7 @@ namespace binstream {
             in >> offset;
         }
         else
-            std::cout << "failed to open file\n";
+            std::cout << "ibinstream::constructer: failed to open file\n";
     }
 
     bool ibinstream::get(bool &bit)

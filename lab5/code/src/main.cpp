@@ -12,22 +12,101 @@ using huffmancoder::HuffmanCoder;
 // g++ main.cpp binstream.cpp -o prog && prog.exe
 // g++ main.cpp binstream.cpp huffmancoder.cpp -o prog && prog.exe
 
-int main(void)
+void encode()
 {
-    ifstream in("../src/main.cpp", ios::in | ios::binary);
-    // ofstream out("../_io/decode_output.txt", ios::out | ios::binary);
-    // ibinstream binin("../_io/output.txt");
-    obinstream binout("../_io/output.txt");
+    cout << endl;
+    string input, output;
+    cout << "input filename:";
+    cin >> input;
+    cout << "output filename:";
+    cin >> output;
 
+    ifstream in(input, ios::in | ios::binary);
+    if (!in) {
+        cout << "failed to open input file " << endl;
+        return ;
+    }
+    obinstream out(output);
     HuffmanTree hft(in);
     HuffmanCoder coder(hft);
-    coder.displayEncodingMap();
     in.clear();
     in.seekg(0, ios::beg);
+    coder.encode(in, out);
+    out.close();
+    cout << "successfully encode " << input << " to " << output << endl;
+    cout << "save huffmancode ? (y/n) ";
+    char ch;
+    cin >> ch;
+    if (ch == 'y' || ch == 'Y') {
+        string savePath;
+        cout << "save path:";
+        cin >> savePath;
+        hft.save(savePath);
+    }
+}
+
+void decode()
+{
+    cout << endl;
+    string HftFilename, input_filename, decode_output;
+    HuffmanTree hft;
+    ifstream in;
+    ofstream out;
+
+    cout << "input filename to decode:";
+    cin >> input_filename;
+
+    cout << "Specify a HuffmanTree? (y/n):";
+    char ch;
+    cin >> ch;
+    if (ch == 'y' || ch == 'Y') {
+        cout << "specify huffmantree path:";
+        cin >> HftFilename;
+        hft.load(HftFilename);
+    }
+    else {
+        string ori;
+        cout << "ori:";
+        cin >> ori;
+        in.open(ori, ios::in | ios::binary);
+        hft = HuffmanTree(in);
+        in.close();
+    }
+
+    hft.display();
+
+    HuffmanCoder coder(hft);
+
+    ibinstream ibin(input_filename);
+    cout << "decode output filename:";
+    cin >> decode_output;
+    out.open(decode_output, ios::out | ios::binary);
+    coder.decode(ibin, out);
+}
+
+int main(void)
+{
     
-    coder.encode(in, binout);
-    // coder.decode(binin, out);
-    binout.close();
+
+    while (true) {
+        int sel;
+        cout << "* encode:0\n* decode:1\n* 2 exit\n" << '>';
+        cin >> sel;
+        switch (sel)
+        {
+        case 0:
+            encode();
+            break;
+        case 1:
+            decode();
+            break;
+        case 2 :
+            return 0;
+        default:
+            continue;
+        }
+        cout << endl;
+    }
 
     return 0;
 }

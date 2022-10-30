@@ -29,6 +29,8 @@ namespace huffmancoder {
         HuffmanTree(std::istream &);
 
         void display() const;
+        void load(std::string);
+        void save(std::string);
     
     private:
         std::map<char, int> base;
