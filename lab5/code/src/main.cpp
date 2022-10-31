@@ -8,10 +8,6 @@ using binstream::ibinstream;
 using huffmancoder::HuffmanTree;
 using huffmancoder::HuffmanCoder;
 
-// g++ main.cpp huffmancoder.cpp -o prog && prog.exe
-// g++ main.cpp binstream.cpp -o prog && prog.exe
-// g++ main.cpp binstream.cpp huffmancoder.cpp -o prog && prog.exe
-
 void encode()
 {
     cout << endl;
@@ -62,6 +58,7 @@ void decode()
     if (ch == 'y' || ch == 'Y') {
         cout << "specify huffmantree path:";
         cin >> HftFilename;
+        cout << HftFilename << endl;
         hft.load(HftFilename);
     }
     else {
@@ -73,10 +70,11 @@ void decode()
         in.close();
     }
 
-    hft.display();
-
+    cout << "start display\n";
+    // hft.display();
+    cout << "start create coder\n";
     HuffmanCoder coder(hft);
-
+    cout << "create coder ok\n";
     ibinstream ibin(input_filename);
     cout << "decode output filename:";
     cin >> decode_output;
@@ -86,8 +84,6 @@ void decode()
 
 int main(void)
 {
-    
-
     while (true) {
         int sel;
         cout << "* encode:0\n* decode:1\n* 2 exit\n" << '>';
@@ -107,6 +103,30 @@ int main(void)
         }
         cout << endl;
     }
-
     return 0;
 }
+
+/*
+int main(void)
+{
+    ifstream in("../_io/code.cpp", ios::binary | ios::in);
+    obinstream binout("../_io/en_op");
+    HuffmanTree hft(in);
+    // hft.load("../_io/h");
+    HuffmanCoder coder(hft);
+    in.clear();
+    in.seekg(0, ios::beg);
+    coder.encode(in, binout);
+    binout.close();
+    
+    
+    ifstream in("../_io/code.cpp", ios::binary | ios::in);
+    ofstream out("../_io/de_op", ios::out | ios::binary);
+    ibinstream binin("../_io/en_op");
+    HuffmanTree hft(in);
+    //hft.load("../_io/h");
+    HuffmanCoder coder(hft);
+    in.clear();
+    in.seekg(0, ios::beg);
+    coder.decode(binin, out);
+}*/

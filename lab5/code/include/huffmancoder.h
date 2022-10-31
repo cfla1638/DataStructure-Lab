@@ -6,13 +6,15 @@
 #include <string>
 #include <fstream>
 #include "binstream.h"
+#include <stdint.h>
+
 using binstream::obinstream;
 using binstream::ibinstream;
 
 class TreeNode
 {
 public:
-    int weight = 0;
+    uint32_t weight = 0u;
     int parent = -1, left = -1, right = -1;
     char ch = 0;
 };
@@ -25,7 +27,7 @@ namespace huffmancoder {
     public:
         // 其他的拷贝控制函数使用编译器生成的版本即可
         HuffmanTree() = default;
-        HuffmanTree(std::vector<char>, std::vector<int>);
+        HuffmanTree(std::vector<char>, std::vector<uint32_t>);
         HuffmanTree(std::istream &);
 
         void display() const;
@@ -33,7 +35,7 @@ namespace huffmancoder {
         void save(std::string);
     
     private:
-        std::map<char, int> base;
+        std::map<char, uint32_t> base;
     };
 
     class HuffmanCoder

@@ -23,10 +23,11 @@ namespace binstream {
     {
         int len = str.size();
         // std::cout << str << " ";
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; ) {
             if (cursor < BufSize) {
                 if (str[i] == '1') buf.set(cursor++, true);
                 else if (str[i] == '0') buf.set(cursor++, false);
+                i++;    // 原有重大bug，现已修正
             }
             else {
                 for (int j = 0; j < BufSize; j += 8)
