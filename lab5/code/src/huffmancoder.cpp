@@ -1,10 +1,11 @@
-#include "huffmancoder.h"
 #include <iostream>
 #include <algorithm>
 #include <queue>
 #include "binstream.h"
+#include "huffmancoder.h"
 
 using binstream::obinstream;
+using binstream::ibinstream;
 
 namespace huffmancoder {
     HuffmanTree::HuffmanTree(std::vector<char> cvec, std::vector<uint32_t> ivec)

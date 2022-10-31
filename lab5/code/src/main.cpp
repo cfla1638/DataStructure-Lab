@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "huffmancoder.h"
 #include "binstream.h"
+#include "huffmancoder.h"
 using namespace std;
 using binstream::obinstream;
 using binstream::ibinstream;
@@ -105,28 +105,3 @@ int main(void)
     }
     return 0;
 }
-
-/*
-int main(void)
-{
-    ifstream in("../_io/code.cpp", ios::binary | ios::in);
-    obinstream binout("../_io/en_op");
-    HuffmanTree hft(in);
-    // hft.load("../_io/h");
-    HuffmanCoder coder(hft);
-    in.clear();
-    in.seekg(0, ios::beg);
-    coder.encode(in, binout);
-    binout.close();
-    
-    
-    ifstream in("../_io/code.cpp", ios::binary | ios::in);
-    ofstream out("../_io/de_op", ios::out | ios::binary);
-    ibinstream binin("../_io/en_op");
-    HuffmanTree hft(in);
-    //hft.load("../_io/h");
-    HuffmanCoder coder(hft);
-    in.clear();
-    in.seekg(0, ios::beg);
-    coder.decode(binin, out);
-}*/

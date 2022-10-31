@@ -5,9 +5,9 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "binstream.h"
 #include <stdint.h>
 
+#include "binstream.h"
 using binstream::obinstream;
 using binstream::ibinstream;
 
