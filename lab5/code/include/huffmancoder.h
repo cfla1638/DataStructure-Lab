@@ -24,8 +24,8 @@ namespace huffmancoder {
     class HuffmanTree
     {
         friend class HuffmanCoder;
+        
     public:
-        // 其他的拷贝控制函数使用编译器生成的版本即可
         HuffmanTree() = default;
         HuffmanTree(std::vector<char>, std::vector<uint32_t>);
         HuffmanTree(std::istream &);
@@ -35,33 +35,36 @@ namespace huffmancoder {
         ~HuffmanTree();
 
         void display() const;
-        void load(std::string);
+        int load(std::string);
         void save(std::string);
     
     private:
         void construct_tree();
+        void do_display(int, int) const;
 
         std::map<char, uint32_t> base;
 
         int root = -1;
         int tree_size = 0;
-        TreeNode * tree_base;
+        TreeNode * tree_base = nullptr;
     };
 
     class HuffmanCoder
     {
     public:
+        HuffmanCoder() = default;
         HuffmanCoder(const HuffmanTree &);
-        HuffmanCoder(const HuffmanCoder &);     // 拷贝构造函数
 
         void displayEncodingMap() const;
+        void set(const HuffmanTree &);
         void encode(std::istream &, std::ostream &);
         void encode(std::istream &, obinstream &);
         void decode(std::istream &, std::ostream &);
         void decode(ibinstream &, std::ostream &);
     private:
-        static const int BufSize = 1024;
+        void construct_encoding_map();
 
+        static const int BufSize = 1024;
         HuffmanTree Tree;
         std::map<char, std::string> encodingMap;
     };

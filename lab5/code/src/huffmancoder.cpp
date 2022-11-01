@@ -43,6 +43,7 @@ namespace huffmancoder {
             tree_base[i].left = t1;
             tree_base[i].right = t2;
             tree_base[i].weight = tree_base[t1].weight + tree_base[t2].weight;
+            tree_base[i].ch = '#';
 
             heap.push(i);
         }
@@ -73,20 +74,38 @@ namespace huffmancoder {
         construct_tree();
     }
 
+    void HuffmanTree::do_display(int tree, int n) const
+    {   // 先序遍历，打印打印凹入表
+        if (tree != -1) {
+            for (int i = 0; i < n; i++)
+                std::cout << '*';
+            std::cout << tree_base[tree].ch << std::endl;
+            do_display(tree_base[tree].left, n + 1);
+            do_display(tree_base[tree].right, n + 1); 
+        }
+    }
+
     void HuffmanTree::display() const
     {
-        std::cout << "Huffman Map Size:" << base.size() << '\n';
-        for (auto i : base)
-            std::cout << i.first << " " << i.second << std::endl;
+        if (!tree_base) {
+            std::cerr << "HuffmanTree::display() : empty tree!\n" << std::endl;
+            return ;
+        }
+        do_display(root, 0);
     }
 
     void HuffmanTree::save(std::string filename)
     {
+        if (base.empty()) {
+            std::cerr << "HuffmanTree::save() : Try to save an empty tree!" << std::endl;
+            return ;
+        }
+
         std::ofstream out(filename, std::ios::out | std::ios::binary);
-        
+
         if (!out) {
             std::cerr << "HuffmanTree::save: failed to open file" << std::endl;
-            exit(1);
+            return ;
         }
 
         for (auto i : base) {
@@ -96,14 +115,13 @@ namespace huffmancoder {
         out.close();
     }
 
-    // 应设置返回值状态
-    void HuffmanTree::load(std::string filename)
+    int HuffmanTree::load(std::string filename)
     {
         std::ifstream in(filename, std::ios::in | std::ios::binary);
 
         if (!in.is_open()) {
             std::cerr << "HuffmanTree::load: failed to open file" << std::endl;
-            exit(0);
+            return 1;
         }
 
         base.clear();
@@ -116,6 +134,7 @@ namespace huffmancoder {
         in.close();
 
         construct_tree();
+        return 0;
     }
 
     HuffmanTree::HuffmanTree(const HuffmanTree &rhs)
@@ -148,11 +167,11 @@ namespace huffmancoder {
         delete[] tree_base;
     }
 
-    HuffmanCoder::HuffmanCoder(const HuffmanTree &tree) : Tree(tree)
+    void HuffmanCoder::construct_encoding_map()
     {
         int leafCnt = Tree.base.size();
-       
-        // 构造字符映射表
+
+        encodingMap.clear();
         for (int i = 0; i < leafCnt; i++) {
             std::string code;
             int cur = i, par = Tree.tree_base[cur].parent;
@@ -169,6 +188,17 @@ namespace huffmancoder {
         }
     }
 
+    void HuffmanCoder::set(const HuffmanTree &tree)
+    {
+        Tree = tree;
+        construct_encoding_map();
+    }
+
+    HuffmanCoder::HuffmanCoder(const HuffmanTree &tree) : Tree(tree)
+    {
+        construct_encoding_map();
+    }
+
     void HuffmanCoder::displayEncodingMap() const
     {
         std::cout << "Map size :" << encodingMap.size() << '\n';
@@ -178,6 +208,11 @@ namespace huffmancoder {
 
     void HuffmanCoder::encode(std::istream &in, std::ostream &out)
     {
+        if (Tree.tree_base == nullptr) {
+            std::cerr << "HuffmanCoder::encode() : HuffmanTree empty!" << std::endl;
+            return ;
+        }
+
         char buf[BufSize];
 
         while (true) {
@@ -193,6 +228,11 @@ namespace huffmancoder {
 
     void HuffmanCoder::encode(std::istream &in, obinstream & out)
     {
+        if (Tree.tree_base == nullptr) {
+            std::cerr << "HuffmanCoder::encode() : HuffmanTree empty!" << std::endl;
+            return ;
+        }
+
         char buf[BufSize];
 
         while (true) {
@@ -208,6 +248,11 @@ namespace huffmancoder {
 
     void HuffmanCoder::decode(std::istream &in, std::ostream &out)
     {
+        if (Tree.tree_base == nullptr) {
+            std::cerr << "HuffmanCoder::decode() : HuffmanTree empty!" << std::endl;
+            return ;
+        }
+
         char ch;
         int cur = Tree.root;
         while (in >> ch) {
@@ -224,6 +269,11 @@ namespace huffmancoder {
 
     void HuffmanCoder::decode(ibinstream &in, std::ostream &out)
     {
+        if (Tree.tree_base == nullptr) {
+            std::cerr << "HuffmanCoder::decode() : HuffmanTree empty!" << std::endl;
+            return ;
+        }
+
         bool ch;
         int cur = Tree.root;
         while (in.get(ch)) {
