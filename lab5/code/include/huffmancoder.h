@@ -30,12 +30,22 @@ namespace huffmancoder {
         HuffmanTree(std::vector<char>, std::vector<uint32_t>);
         HuffmanTree(std::istream &);
 
+        HuffmanTree(const HuffmanTree &);
+        HuffmanTree & operator=(const HuffmanTree &);
+        ~HuffmanTree();
+
         void display() const;
         void load(std::string);
         void save(std::string);
     
     private:
+        void construct_tree();
+
         std::map<char, uint32_t> base;
+
+        int root = -1;
+        int tree_size = 0;
+        TreeNode * tree_base;
     };
 
     class HuffmanCoder
@@ -43,7 +53,6 @@ namespace huffmancoder {
     public:
         HuffmanCoder(const HuffmanTree &);
         HuffmanCoder(const HuffmanCoder &);     // ¿½±´¹¹Ôìº¯Êý
-        ~HuffmanCoder();
 
         void displayEncodingMap() const;
         void encode(std::istream &, std::ostream &);
@@ -53,8 +62,7 @@ namespace huffmancoder {
     private:
         static const int BufSize = 1024;
 
-        int root = -1;
-        TreeNode * base;
+        HuffmanTree Tree;
         std::map<char, std::string> encodingMap;
     };
 }
