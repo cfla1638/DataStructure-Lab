@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <queue>
+#include "heap.h"
 #include "binstream.h"
 #include "huffmancoder.h"
 
@@ -77,7 +78,8 @@ namespace huffmancoder {
 
         // 初始化优先队列
         auto cmp = [&](int a, int b) {return base[a].weight > base[b].weight;};
-        std::priority_queue<int, std::vector<int>,decltype(cmp)> heap(cmp);
+        // std::priority_queue<int, std::vector<int>,decltype(cmp)> heap(cmp);
+        heap<int, decltype(cmp)> heap(cmp);
 
         // 初始化叶子节点
         int n = 0;
