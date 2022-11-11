@@ -13,17 +13,25 @@ int visited[graph_t::volume];
 vector<int> visited_seq;
 vector<pair<int, int> > visited_arc_set;
 
+// 用于搜索路径的栈和标记
+int path[1024];
+int in_path[1024];
+int top;
+
+// 实验要求用到的函数
 void read_file(graph_t & G, istream &);
 void BFS(const graph_t & G, int start);
 void DFS(const graph_t & G, int start);
 void DFS_non_recursion(const graph_t & G, int start);
 void build_spanning_tree(const graph_t & ori, graph_t & tree);
 void print_tree(const graph_t &);
-void show_result();
+void show_result(const graph_t &);
+void generate_path(const graph_t &, elem_t src, elem_t dst);
 
 // 辅助函数
 void do_DFS(const graph_t & G, int start);
 void do_print_tree(const graph_t &, int, int);
+void do_generate_path(const graph_t &, elem_t src, elem_t dst);
 
 // g++ src.cpp graph.cpp -o prog && prog.exe
 int main(void)
@@ -31,10 +39,10 @@ int main(void)
     graph_t G, tree;
     ifstream in("data.txt");
     read_file(G, in);
-    DFS_non_recursion(G, 0);
-    show_result();
-    build_spanning_tree(G, tree);
-    print_tree(tree);
+    BFS(G, 0);
+    // show_result(G);
+    // build_spanning_tree(G, tree);
+    // print_tree(tree);
 
     return 0;
 }
@@ -117,14 +125,14 @@ void do_DFS(const graph_t & G, int start)
 }
 
 // 显示访问序列和边集
-void show_result()
+void show_result(const graph_t &G)
 {
     cout << "访问序列:" << endl;
     for (auto i : visited_seq)
-        cout << i << " ";
+        cout << G.base[i].val << " ";
     cout << endl << "边集:" << endl;
     for (auto i : visited_arc_set)
-        cout << i.first << " -> " << i.second << endl;
+        cout << G.base[i.first].val << " -> " << G.base[i.second].val << endl;
 }
 
 void read_file(graph_t & G, istream & in)
@@ -169,4 +177,17 @@ void do_print_tree(const graph_t & G, int start, int cnt)
     for (arc_t * t = G.base[start].arc_set; t != nullptr; t = t->next)
         if (!visited[t->vertex_num])
             do_print_tree(G, t->vertex_num, cnt + 1);
+}
+
+void generate_path(const graph_t &G, elem_t src, elem_t dst)
+{
+    memset(path, 0, sizeof(path));
+    memset(in_path, 0, sizeof(in_path));
+    top = 0;
+    do_generate_path(G, src, dst);
+}
+
+void do_generate_path(const graph_t &, elem_t src, elem_t dst)
+{
+    
 }
