@@ -27,7 +27,7 @@ public:
     bool add_vertex(const elem_t &);
     bool add_arc(int src, int dst, int weight);
     bool add_edge(int v1, int v2, int weight);
-    int index(elem_t);
+    int index(elem_t) const;
 
     vertex_t * base = nullptr;
     int size = 0;

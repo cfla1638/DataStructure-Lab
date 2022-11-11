@@ -26,7 +26,7 @@ bool graph_t::add_edge(int v1, int v2, int weight)
     return (add_arc(v1, v2, weight) && add_arc(v2, v1, weight));
 }
 
-int graph_t::index(elem_t val)
+int graph_t::index(elem_t val) const
 {
     for (int i = 0; i < size; i++)
         if (base[i].val == val)
