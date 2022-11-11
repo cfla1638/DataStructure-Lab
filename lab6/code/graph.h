@@ -6,6 +6,7 @@ typedef std::string elem_t;
 typedef struct arc_t
 {
     int vertex_num = 0;
+    int weight = 0;
     struct arc_t * next = nullptr;
 }arc_t;
 
@@ -24,8 +25,8 @@ public:
     ~graph_t() {delete[] base;}
 
     bool add_vertex(const elem_t &);
-    bool add_arc(int src, int dst);
-    bool add_edge(int, int);
+    bool add_arc(int src, int dst, int weight);
+    bool add_edge(int v1, int v2, int weight);
     int index(elem_t);
 
     vertex_t * base = nullptr;
