@@ -1,12 +1,14 @@
 #include <iostream>
 #include <fstream>  // ifstream
 #include <cstring>  // memset
-#include <queue>
-#include <stack>
 #include <vector>
 #include <utility>  // pair
-#include "graph.h"
+#include "graph.h"  // graph_t
+#include "stack.h"  // mystack::stack
+#include "queue.h"  // myqueue::queue
 using namespace std;
+using myqueue::queue;
+using mystack::stack;
 
 // 全局数据结构
 int visited[graph_t::volume];
@@ -16,7 +18,7 @@ vector<pair<int, int> > visited_arc_set;
 // 用于搜索路径的栈和标记
 int path[1024];
 int in_path[1024];
-int top, start_vertex, dest_vertex, exclusion;
+int top, start_vertex, dest_vertex, exclusion, cur_length;
 
 // 实验要求用到的函数
 void read_file(graph_t & G, istream &);
@@ -31,19 +33,31 @@ void generate_path(const graph_t &, elem_t src, elem_t dst);
 // 辅助函数
 void do_DFS(const graph_t & G, int start);
 void do_print_tree(const graph_t &, int, int);
-void do_generate_path(const graph_t &, int);
+void do_generate_path(const graph_t &, int, int);
 
-// g++ src.cpp graph.cpp -o prog && prog.exe
+// g++ -g src.cpp graph.cpp -o prog && prog.exe
 int main(void)
 {
-    graph_t G, tree;
-    ifstream in("data.txt");
+    graph_t G, bfs_tree, dfs_tree;
+    ifstream in("../data/data.txt");
     read_file(G, in);
-    // DFS_non_recursion(G, 0);
-    // show_result(G);
-    // build_spanning_tree(G, tree);
-    // print_tree(tree);
-     generate_path(G, "北京", "广州");
+    cout << "--DFS--" << endl;
+    DFS(G, 0);
+    show_result(G);
+    cout << "--DFS without recursion--" << endl;
+    DFS_non_recursion(G, 0);
+    show_result(G);
+    cout << "--DFS spanning tree--" << endl;
+    build_spanning_tree(G, dfs_tree);
+    print_tree(dfs_tree);
+    cout << "--BFS--" << endl;
+    BFS(G, 0);
+    show_result(G);
+    cout << "--BFS spanning tree--" << endl;
+    build_spanning_tree(G, bfs_tree);
+    print_tree(bfs_tree);
+    cout << "--path--" << endl;
+    generate_path(G, "北京", "广州");
 
     return 0;
 }
@@ -62,6 +76,8 @@ void BFS(const graph_t & G, int start)
     while (!Q.empty()) {
         int t = Q.front();
         Q.pop();
+        if (visited[t])
+            continue;
         visited[t] = 1;
         visited_seq.push_back(t);
         for (arc_t * i = G.base[t].arc_set; i != nullptr; i = i->next)
@@ -150,7 +166,7 @@ void read_file(graph_t & G, istream & in)
     in >> arc_cnt;
     for (int i = 0; i < arc_cnt; i++) {
         in >> src_val >> dst_val >> weight;
-        G.add_arc(G.index(src_val), G.index(dst_val), weight);
+        G.add_edge(G.index(src_val), G.index(dst_val), weight);
     }
 }
 
@@ -185,29 +201,34 @@ void generate_path(const graph_t &G, elem_t src, elem_t dst)
     memset(path, 0, sizeof(path));
     memset(in_path, 0, sizeof(in_path));
     top = 0;
+    cur_length = 0;
     start_vertex = G.index(src);
     dest_vertex = G.index(dst);
     exclusion = G.index("郑州");
-    do_generate_path(G, G.index(src));
+    do_generate_path(G, G.index(src), 0);
 }
 
-void do_generate_path(const graph_t & G, int cur)
+void do_generate_path(const graph_t & G, int cur, int length)
 {
     path[top++] = cur;
     in_path[cur] = 1;
+    cur_length += length;
     if (cur == dest_vertex) {
         cout << "发现路径 : ";
         for (int i = 0; i < top; i++)
             cout << G.base[path[i]].val << " ";
         cout << endl;
+        cout << "路径长度为: " << cur_length << endl;
+        cur_length -= length;
         in_path[cur] = 0;
         top--;
         return ;
     }
     for (arc_t * i = G.base[cur].arc_set; i != nullptr; i = i->next)
-        if (!in_path[i->vertex_num]) {
-            do_generate_path(G, i->vertex_num);
+        if (!in_path[i->vertex_num] && i->vertex_num != exclusion) {
+            do_generate_path(G, i->vertex_num, i->weight);
         }
+    cur_length -= length;
     in_path[cur] = 0;
     top--;
 }
