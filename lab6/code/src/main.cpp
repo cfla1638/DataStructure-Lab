@@ -21,21 +21,21 @@ int in_path[1024];
 int top, start_vertex, dest_vertex, exclusion, cur_length;
 
 // 实验要求用到的函数
-void read_file(graph_t & G, istream &);
+void read_file(graph_t & G, istream &);     // 读取数据，建立图
 void BFS(const graph_t & G, int start);
 void DFS(const graph_t & G, int start);
-void DFS_non_recursion(const graph_t & G, int start);
+void DFS_non_recursion(const graph_t & G, int start);   // 非递归版本的DFS
+// 根据全局的visited_seq和visited_arc_path建立生成树
 void build_spanning_tree(const graph_t & ori, graph_t & tree);
-void print_tree(const graph_t &);
-void show_result(const graph_t &);
-void generate_path(const graph_t &, elem_t src, elem_t dst);
+void print_tree(const graph_t &);   // 凹入表打印生成树
+void show_result(const graph_t &);  // 打印visited_seq和visited_arc_path
+void generate_path(const graph_t &, elem_t src, elem_t dst);    // 生产路径
 
 // 辅助函数
 void do_DFS(const graph_t & G, int start);
 void do_print_tree(const graph_t &, int, int);
 void do_generate_path(const graph_t &, int, int);
 
-// g++ -g src.cpp graph.cpp -o prog && prog.exe
 int main(void)
 {
     graph_t G, bfs_tree, dfs_tree;
@@ -204,7 +204,7 @@ void generate_path(const graph_t &G, elem_t src, elem_t dst)
     cur_length = 0;
     start_vertex = G.index(src);
     dest_vertex = G.index(dst);
-    exclusion = G.index("郑州");
+    exclusion = G.index("郑州");    // 在此处配置不经过的城市结点
     do_generate_path(G, G.index(src), 0);
 }
 
