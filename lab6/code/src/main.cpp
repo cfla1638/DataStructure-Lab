@@ -43,6 +43,13 @@ int main(void)
     int start_index;
 
     ifstream in("../data/data.txt");    // 根据文件结构的不同采用不同的输入路径
+    if (!in.is_open()) {
+        cerr << "输入数据文件打开失败！" << endl;
+        cerr << "没有找到 ../data/data.txt ,请检查输入文件路径" << endl;
+        abort();
+
+    }
+
     read_file(G, in);
     
     cout << "请输入遍历起点:" << endl;
