@@ -39,19 +39,31 @@ void do_generate_path(const graph_t &, int, int);
 int main(void)
 {
     graph_t G, bfs_tree, dfs_tree;
-    ifstream in("../data/data.txt");
+    elem_t start;
+    int start_index;
+
+    ifstream in("../data/data.txt");    // 根据文件结构的不同采用不同的输入路径
     read_file(G, in);
+    
+    cout << "请输入遍历起点:" << endl;
+    cin >> start;
+    start_index = G.index(start);
+    if (start_index == -1) {
+        cerr << "不存在该结点! " << endl;
+        abort();
+    }
+
     cout << "--DFS--" << endl;
-    DFS(G, 0);
+    DFS(G, start_index);
     show_result(G);
     cout << "--DFS without recursion--" << endl;
-    DFS_non_recursion(G, 0);
+    DFS_non_recursion(G, start_index);
     show_result(G);
     cout << "--DFS spanning tree--" << endl;
     build_spanning_tree(G, dfs_tree);
     print_tree(dfs_tree);
     cout << "--BFS--" << endl;
-    BFS(G, 0);
+    BFS(G, start_index);
     show_result(G);
     cout << "--BFS spanning tree--" << endl;
     build_spanning_tree(G, bfs_tree);
