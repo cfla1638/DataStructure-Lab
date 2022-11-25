@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(library_system)
+project(libman_system)
 
 set(SOURCES
     src/main.cpp
+    src/libman.cpp
+    src/avltree.cpp
     )
 
-add_executable(library_system ${SOURCES})
+add_executable(libman_system ${SOURCES})
 
-target_include_directories(library_system
+target_include_directories(libman_system
     PRIVATE
         ${PROJECT_SOURCE_DIR}/include
 )
