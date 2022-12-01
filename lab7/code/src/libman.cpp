@@ -1,6 +1,11 @@
 #include "libman.h"
 
 namespace {
+    /**
+     * @brief 将字符串格式的时间转换为time_t
+     * @param str 时间，例：20221201194830
+     * @return time_t 
+     */
     time_t string_to_time_t(const std::string &str)
     {
         tm tm_;                                    // 定义tm结构体。

@@ -7,6 +7,18 @@
 class book_entry_t
 {
 public:
+    book_entry_t() = default;
+    book_entry_t(std::string para_isbn, std::string para_name, std::string para_author,
+    int para_cur_count, int para_total_count) : ISBN(para_isbn), name(para_name),
+    author(para_author), cur_count(para_cur_count), total_count(para_total_count) {}
+
+    bool operator>(const book_entry_t &rhs) {return this->ISBN > rhs.ISBN;}
+    bool operator<(const book_entry_t &rhs) {return this->ISBN < rhs.ISBN;}
+    bool operator>=(const book_entry_t &rhs) {return this->ISBN >= rhs.ISBN;}
+    bool operator<=(const book_entry_t &rhs) {return this->ISBN <= rhs.ISBN;}
+    bool operator==(const book_entry_t &rhs) {return this->ISBN == rhs.ISBN;}
+    bool operator!=(const book_entry_t &rhs) {return this->ISBN != rhs.ISBN;}
+
     std::string ISBN;       // ISBN
     std::string name;       // ÊéÃû
     std::string author;     // ÖøÕß
