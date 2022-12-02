@@ -1,4 +1,6 @@
 #include "libman.h"
+#include <ctime>
+#include <iostream>
 
 namespace {
     /**
@@ -32,6 +34,11 @@ namespace {
 
 libman_system::libman_system()
 {
+    
+}
+
+libman_system::libman_system(std::string filename)
+{
 
 }
 
@@ -40,22 +47,87 @@ libman_system::~libman_system()
 
 }
 
-void libman_system::warehouse(std::string isbn, int count)
+void libman_system::warehouse(book_entry_t newbook)
 {
-        
+    base.insert(newbook);
 }
 
-void libman_system::borrow(std::string borrower, std::string isbn, std::string deadline)
+int libman_system::borrow(std::string borrower_card_no, std::string isbn, std::string deadline)
+{
+    int pos;
+    for (pos = 0; pos < borrowers_count; pos++)
+        if (borrowers[pos].card_no == borrower_card_no)
+            break;
+    if (pos >= borrowers_count) {     // 之前并未借过书
+        borrowers[pos].card_no = borrower_card_no;
+        borrowers_count++;
+
+        book_entry_t * book;
+        if (base.exist(book_entry_t(isbn))) {
+            book = base.pointer(book_entry_t(isbn));
+            if (book->cur_count <= 0) {
+                std::cout << "要借阅的书籍已全部借出!" << std::endl;
+                return 1;
+            }
+        }
+        else {
+            std::cout << "找不到要借阅的书籍!" << std::endl;
+            return 1;
+        }
+        info_t * t = new info_t();
+        t->ISBN = isbn;
+        t->deadline = string_to_time_t(deadline);
+        book->cur_count--;
+        borrowers[pos].info_set = t;
+    }
+    else {  // 之前借过书
+        for (auto i = borrowers[pos].info_set; i != nullptr; i = i->next) {
+            auto cur_time = time(nullptr);
+            if (i->deadline < cur_time) {
+                std::cout << "有超期未还的书籍!" << std::endl;
+                return 1;
+            }
+            if (i->ISBN == isbn) {
+                std::cout << "已经借阅过该书籍!" << std::endl;
+                return 1;
+            }
+
+            book_entry_t * book;
+            if (base.exist(book_entry_t(isbn))) {
+                book = base.pointer(book_entry_t(isbn));
+                if (book->cur_count <= 0) {
+                std::cout << "要借阅的书籍已全部借出!" << std::endl;
+                return 1;
+                }
+            }
+            else {
+                std::cout << "找不到要借阅的书籍!" << std::endl;
+                return 1;
+            }
+
+            info_t * t = new info_t();
+            t->ISBN = isbn;
+            t->deadline = string_to_time_t(deadline);
+            auto tmp = borrowers[pos].info_set;
+            borrowers[pos].info_set = t;
+            t->next = tmp;
+            book->cur_count--;
+        }
+    }
+    return 0;
+}
+
+void libman_system::Rentrn(std::string borrower, std::string isbn)
 {
 
 }
 
-void libman_system::Rentrn(std::string isbn)
+void libman_system::remove(std::string isbn)
 {
-
+    base.remove(book_entry_t(isbn));
 }
 
-void libman_system::Delete(std::string isbn)
+void libman_system::show_base()
 {
-
+    base.show_all();
 }

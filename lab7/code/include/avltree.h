@@ -18,11 +18,12 @@ public:
     avl_tree() : tree(nullptr) {}
     avl_tree(const avl_tree &) = delete;
     avl_tree & operator=(const avl_tree &) = delete;
-    // TODO : ~avl_tree();
+    ~avl_tree();
 
     void insert(elem_type);
     bool remove(elem_type);
     bool exist(elem_type);
+    elem_type * pointer(elem_type);
     void show_all();
 private:
     int Max(int, int);
@@ -35,6 +36,8 @@ private:
     imp_avl_tree imp_remove(imp_avl_tree, elem_type);
     bool imp_exist(imp_avl_tree, elem_type);
     void imp_show_all(imp_avl_tree, int);
+    void imp_destructor(imp_avl_tree);
+    elem_type * imp_pointer(imp_avl_tree, elem_type);
 
     imp_avl_tree tree;
 };

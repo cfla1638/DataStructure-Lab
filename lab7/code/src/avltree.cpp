@@ -176,11 +176,11 @@ imp_avl_tree avl_tree::imp_remove(imp_avl_tree T, elem_type key)
             T->right = nullptr;
         }
         else {      // 左右节点都不为空
-            imp_avl_tree pre = T->left;
+            imp_avl_tree pre = T->left;     // 寻找其前驱结点
             while (pre->right != nullptr)
                 pre = pre->right;
-            T->elem = pre->elem;
-            T->left = imp_remove(T->left, pre->elem);
+            T->elem = pre->elem;            // 用前驱节点替换该节点
+            T->left = imp_remove(T->left, pre->elem);   // 在其左子树中删除该前驱节点
             if (height(T->right) - height(T->left) == 2) {
                 if (height(T->right->left) < height(T->right->right))
                     T = double_rotate_right(T);
@@ -191,4 +191,39 @@ imp_avl_tree avl_tree::imp_remove(imp_avl_tree T, elem_type key)
         }
     }
     return T;
+}
+
+avl_tree::~avl_tree()
+{
+    imp_destructor(tree);
+}
+
+void avl_tree::imp_destructor(imp_avl_tree T)
+{
+    if (T != nullptr) {
+        imp_destructor(T->left);
+        imp_destructor(T->right);
+        delete T;
+    }
+}
+
+avl_tree::elem_type * avl_tree::pointer(avl_tree::elem_type key)
+{
+    return imp_pointer(tree, key);
+}
+
+avl_tree::elem_type * avl_tree::imp_pointer(imp_avl_tree T, avl_tree::elem_type key)
+{
+    if (T != nullptr) {
+        if (key < T->elem)
+            return imp_pointer(T->left, key);
+        else if (key > T->elem)
+            return imp_pointer(T->right, key);
+        else 
+            return &(T->elem);
+    }
+    else {
+        std::cerr << "Use function exist() before using function pointer()" << std::endl;
+        std::abort();
+    }
 }
