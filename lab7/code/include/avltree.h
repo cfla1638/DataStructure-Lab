@@ -22,6 +22,7 @@ public:
 
     void insert(elem_type);
     bool remove(elem_type);
+    bool exist(elem_type);
     void show_all();
 private:
     int Max(int, int);
@@ -31,6 +32,8 @@ private:
     imp_avl_tree single_rotate_right(imp_avl_tree);
     imp_avl_tree double_rotate_left(imp_avl_tree);
     imp_avl_tree double_rotate_right(imp_avl_tree);
+    imp_avl_tree imp_remove(imp_avl_tree, elem_type);
+    bool imp_exist(imp_avl_tree, elem_type);
     void imp_show_all(imp_avl_tree, int);
 
     imp_avl_tree tree;

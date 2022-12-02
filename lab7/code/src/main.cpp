@@ -19,4 +19,7 @@ int main(void)
     Tree.insert(book_entry_t("4"));
     Tree.insert(book_entry_t("5"));
     Tree.show_all();
+    cout << "-----------------\n";
+    Tree.remove(book_entry_t("2"));
+    Tree.show_all();
 }
