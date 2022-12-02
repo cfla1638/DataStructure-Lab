@@ -2,12 +2,12 @@
 #define H_AVLTREE
 #include "basictype.h"
 
-typedef struct
+typedef struct avl_node
 {
     typedef book_entry_t elem_type;
     elem_type elem;
-    imp_avl_tree left = nullptr;
-    imp_avl_tree right = nullptr;
+    struct avl_node * left = nullptr;
+    struct avl_node * right = nullptr;
     int height = -1;
 }avl_node, * imp_avl_tree;
 
@@ -15,9 +15,10 @@ class avl_tree
 {
 public:
     typedef avl_node::elem_type elem_type;
-    avl_tree();
+    avl_tree() : tree(nullptr) {}
     avl_tree(const avl_tree &) = delete;
     avl_tree & operator=(const avl_tree &) = delete;
+    // TODO : ~avl_tree();
 
     void insert(elem_type);
     bool remove(elem_type);
@@ -30,6 +31,7 @@ private:
     imp_avl_tree single_rotate_right(imp_avl_tree);
     imp_avl_tree double_rotate_left(imp_avl_tree);
     imp_avl_tree double_rotate_right(imp_avl_tree);
+    void imp_show_all(imp_avl_tree, int);
 
     imp_avl_tree tree;
 };

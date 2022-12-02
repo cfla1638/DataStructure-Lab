@@ -29,34 +29,33 @@ namespace {
     }
 }
 
-namespace Library {
-    libman_system::libman_system()
-    {
 
-    }
+libman_system::libman_system()
+{
 
-    libman_system::~libman_system()
-    {
+}
 
-    }
+libman_system::~libman_system()
+{
 
-    void libman_system::warehouse(std::string isbn, int count)
-    {
+}
+
+void libman_system::warehouse(std::string isbn, int count)
+{
         
-    }
+}
 
-    void libman_system::borrow(std::string borrower, std::string isbn, std::string deadline)
-    {
+void libman_system::borrow(std::string borrower, std::string isbn, std::string deadline)
+{
 
-    }
+}
 
-    void libman_system::Rentrn(std::string isbn)
-    {
+void libman_system::Rentrn(std::string isbn)
+{
 
-    }
+}
 
-    void libman_system::Delete(std::string isbn)
-    {
+void libman_system::Delete(std::string isbn)
+{
 
-    }
 }
