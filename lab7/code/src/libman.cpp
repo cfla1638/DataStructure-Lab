@@ -1,6 +1,6 @@
-#include "libman.h"
 #include <ctime>
 #include <iostream>
+#include "libman.h"
 
 namespace {
     /**

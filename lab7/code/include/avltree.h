@@ -8,7 +8,7 @@ typedef struct avl_node
     elem_type elem;
     struct avl_node * left = nullptr;
     struct avl_node * right = nullptr;
-    int height = -1;
+    int height = -1;    // 树的高度，nullptr的高度为-1
 }avl_node, * imp_avl_tree;
 
 class avl_tree

@@ -1,14 +1,13 @@
 #include <iostream>
-#include <ctime>
-#include <avltree.h>
 #include <regex>
 #include "libman.h"
 using namespace std;
 
-void menu();
+void menu();    // 打印菜单
 
 int main(void)
 {
+    // 初始化管理系统，并提前插入数据
     libman_system sys;
     sys.warehouse(book_entry_t("9787302455882", "", "", 1, 1));
     sys.warehouse(book_entry_t("9787302386346", "", "", 1, 1));
@@ -20,7 +19,7 @@ int main(void)
 
     int opt;
     string card_no, author, name, isbn, date, pattern("(\\d{4})[-/](1[0,1,2]|0?\\d)[-/](3[0,1]|[1,2]\\d|0?\\d)");
-    regex r(pattern);
+    regex r(pattern);   // 验证输入日期的正则表达式
     while (true) {
         menu();
         cin >> opt;
