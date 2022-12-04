@@ -1,4 +1,4 @@
-# 数据结构实验课 - 华侨大学
+# 数据结构实验课
 
 * [实验1：顺序表的基本操作](https://github.com/cfla1638/DataStructure-Lab/tree/main/lab1)
 * [实验2：线性表及其应用 约瑟夫环](https://github.com/cfla1638/DataStructure-Lab/tree/main/lab2)
