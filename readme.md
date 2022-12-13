@@ -7,5 +7,3 @@
 * [实验5：Huffman树](https://github.com/cfla1638/DataStructure-Lab/tree/main/lab5)
 * [实验6：图的遍历](https://github.com/cfla1638/DataStructure-Lab/tree/main/lab6)
 * [实验7：简易图书管理模拟系统](https://github.com/cfla1638/DataStructure-Lab/tree/main/lab7#readme) 
-
-> 实验4 和 实验 六中使用的自定义模板栈写的不对，但勉强能用，记得修改 ——2022.12.11

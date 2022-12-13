@@ -1,5 +1,6 @@
 #ifndef H_QUEUE
 #define H_QUEUE
+#include <iostream>
 
 namespace myqueue {
     template <typename T>
@@ -18,33 +19,41 @@ namespace myqueue {
         T base[MaxLength];
     };
 
-    template <typename T>
-    bool queue<T>::empty() const
+    template<typename T>
+    void queue<T>::push(T elem) 
     {
-        if (head == rear)
-            return true;
-        return false;
-    }
-
-    template <typename T>
-    T queue<T>::front() const
-    {
-        return base[rear];
+        if ((rear + 1) % MaxLength != head) {
+            base[rear] = elem;
+            rear = (rear + 1) % MaxLength;
+        }
+        else
+            std::cerr << "queue::push(): queue is full!\n";
     }
 
     template <typename T>
     void queue<T>::pop()
     {
-        if (!empty())
-            rear++;
+        if (head != rear)
+            head = (head + 1) % MaxLength;
+        else
+            std::cerr << "queue::pop(): queue is empty\n";
     }
 
     template <typename T>
-    void queue<T>::push(T t)
+    T queue<T>::front() const
     {
-        if (head + 1 != rear) {
-            base[head++] = t;
+        if (head != rear)
+            return base[head];
+        else {
+            std::cerr << "queue::front(): queue is empty\n";
+            std::abort();
         }
+    }
+
+    template <typename T>
+    bool queue<T>::empty() const
+    {
+        return head == rear;
     }
 }
 #endif
