@@ -21,13 +21,14 @@ const int MaxNodeCnt = 100;
 void CreateTree(Tree &T)
 {
     char ch = getchar();
-    if (!T) 
-        if (ch != '#') {
-            T = new Node;
-            T->val = ch;
-            CreateTree(T->left);
-            CreateTree(T->right);
-        }
+    if (ch == '#')
+        T = nullptr;
+    else {
+        T = new Node;
+        T->val = ch;
+        CreateTree(T->left);
+        CreateTree(T->right);
+    }
 }
 
 void PreorderTraverse(const Tree T)
